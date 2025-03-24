@@ -7,6 +7,7 @@ type LIJobParams = {
   company: string;
   location?: string;
   postDateString: string;
+  category: number;
   id: string;
   draggable: boolean;
 };
@@ -16,6 +17,7 @@ const LIJob = ({
   company,
   location = "United Kingdom (Remote)",
   postDateString,
+  category,
   id,
   draggable,
 }: LIJobParams) => {
