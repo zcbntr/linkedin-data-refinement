@@ -10,7 +10,7 @@ import {
 export function getTimeAgoString(date: Date): string {
   const now = Date.now();
   const millisecondsSince = differenceInMilliseconds(now, date);
-  console.log(millisecondsSince);
+
   if (millisecondsSince > 365 * 24 * 60 * 60 * 1000)
     return `${differenceInYears(now, date)} Years Ago`;
   else if (millisecondsSince > 30 * 24 * 60 * 60 * 1000)

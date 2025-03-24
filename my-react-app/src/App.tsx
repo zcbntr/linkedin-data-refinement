@@ -2,22 +2,10 @@ import { ReactNode, useState } from "react";
 import jobdata from "../src/assets/job-data.json";
 import LIJob from "./LIJob";
 import JobBin from "./JobBin";
-
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { createRandomString, getTimeAgoString, randomDate } from "./utils";
 import { sub } from "date-fns";
-
-type BinCount = {
-  name: string;
-  count: number;
-};
-
-type Job = {
-  name: string;
-  company: string;
-  location: string;
-  postDateString: string;
-};
+import { BinCount, Job } from "./types";
 
 function App() {
   const [binCounts, setBinCounts] = useState<BinCount[]>(
@@ -32,21 +20,6 @@ function App() {
   const MAX_JOBS_ON_SCREEN = 20;
   const TARGET_COUNT = 100;
   const completion_percentage = Math.round(0 / TARGET_COUNT);
-
-  const jobs: Job[] = jobdata.jobData.map((jobDatum) => {
-    let postDateString = jobDatum.postDateString ?? "";
-    if (isNaN(new Date(postDateString).getTime())) {
-      postDateString = getTimeAgoString(new Date(postDateString));
-    }
-
-    return {
-      name: jobDatum.name,
-      company: jobDatum.company,
-      location: jobDatum.location ?? "UK (Remote)",
-      postDateString: postDateString,
-    };
-  });
-  const usedJobNames: string[] = [];
 
   const jobListingNodes: ReactNode[] = [];
   for (let i = 0; i < MAX_JOBS_ON_SCREEN; i++) {
@@ -67,6 +40,54 @@ function App() {
       />
     );
   }
+
+  // Should be a hashmap for better performance
+  const usedJobs: number[] = [];
+
+  // Get random job data
+  let chosenJobDataNumber: number = Math.round(
+    Math.min(Math.random() * jobdata.jobData.length, jobdata.jobData.length - 1)
+  );
+  while (
+    usedJobs.includes(chosenJobDataNumber) &&
+    usedJobs.length < jobdata.jobData.length
+  ) {
+    chosenJobDataNumber = Math.round(
+      Math.min(
+        Math.random() * jobdata.jobData.length,
+        jobdata.jobData.length - 1
+      )
+    );
+  }
+
+  // For use if the job doesnt have a post date string attribute
+  const postDate = randomDate(sub(new Date(), { months: 1 }), new Date());
+  const postDateString = getTimeAgoString(postDate);
+
+  const chosenJobData: Job = {
+    name: jobdata.jobData[chosenJobDataNumber].name,
+    company: jobdata.jobData[chosenJobDataNumber].company,
+    location: "UK (Remote)",
+    postDateString:
+      jobdata.jobData[chosenJobDataNumber].postDateString ?? postDateString,
+    category: "",
+  };
+
+  const chosenJobNodeNumber = Math.round(
+    Math.min(Math.random() * MAX_JOBS_ON_SCREEN, MAX_JOBS_ON_SCREEN - 1)
+  );
+
+  jobListingNodes[chosenJobNodeNumber] = (
+    <LIJob
+      name={chosenJobData.name}
+      company={chosenJobData.company}
+      postDateString={chosenJobData.postDateString}
+      location={chosenJobData.location}
+      draggable={true}
+      key={chosenJobData.name}
+      id={chosenJobData.name + chosenJobData.category}
+    />
+  );
 
   const jobBinNodes: ReactNode[] = jobdata.jobBins.map((name) => {
     return (
