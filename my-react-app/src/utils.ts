@@ -10,15 +10,16 @@ import {
 export function getTimeAgoString(date: Date): string {
   const now = Date.now();
   const millisecondsSince = differenceInMilliseconds(now, date);
-  if (millisecondsSince > 365 * 24 * 60 * 1000)
+  console.log(millisecondsSince);
+  if (millisecondsSince > 365 * 24 * 60 * 60 * 1000)
     return `${differenceInYears(now, date)} Years Ago`;
-  else if (millisecondsSince > 30 * 24 * 60 * 1000)
+  else if (millisecondsSince > 30 * 24 * 60 * 60 * 1000)
     return `${differenceInMonths(now, date)} Months Ago`;
-  else if (millisecondsSince > 24 * 60 * 1000)
+  else if (millisecondsSince > 24 * 60 * 60 * 1000)
     return `${differenceInDays(now, date)} Days Ago`;
-  else if (millisecondsSince > 60 * 1000)
+  else if (millisecondsSince > 60 * 60 * 1000)
     return `${differenceInHours(now, date)} Hours Ago`;
-  else if (millisecondsSince > 1000)
+  else if (millisecondsSince > 68 * 1000)
     return `${differenceInMinutes(now, date)} Minutes Ago`;
   else return `Now`;
 }

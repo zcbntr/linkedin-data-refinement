@@ -8,6 +8,7 @@ type LIJobParams = {
   location?: string;
   postDateString: string;
   id: string;
+  draggable: boolean;
 };
 
 const LIJob = ({
@@ -16,6 +17,7 @@ const LIJob = ({
   location = "United Kingdom (Remote)",
   postDateString,
   id,
+  draggable,
 }: LIJobParams) => {
   // Draggable code
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
@@ -29,11 +31,11 @@ const LIJob = ({
 
   return (
     <div
-      ref={setNodeRef}
-      style={style}
+      ref={draggable ? setNodeRef : undefined}
+      style={draggable ? style : undefined}
       {...listeners}
       {...attributes}
-      className="w-96 py-2 px-2.5 flex flex-row gap-3 border-1 border-gray-600 min-w-96"
+      className="w-96 py-2 px-2.5 flex flex-row gap-2 border-1 border-gray-600 min-w-96"
     >
       <div className="flex flex-col place-content-start pt-1.5">
         <img src={LinkedInSVG} width={64}></img>

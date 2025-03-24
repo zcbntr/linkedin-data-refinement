@@ -29,7 +29,7 @@ function App() {
     })
   );
 
-  const MAX_JOBS_ON_SCREEN = 18;
+  const MAX_JOBS_ON_SCREEN = 20;
   const TARGET_COUNT = 100;
   const completion_percentage = Math.round(0 / TARGET_COUNT);
 
@@ -42,7 +42,7 @@ function App() {
     return {
       name: jobDatum.name,
       company: jobDatum.company,
-      location: jobDatum.location ?? "United Kingdom (Remote)",
+      location: jobDatum.location ?? "UK (Remote)",
       postDateString: postDateString,
     };
   });
@@ -60,7 +60,8 @@ function App() {
         name={name}
         company={company}
         postDateString={postDateString}
-        location={"United Kingdom (Remote)"}
+        location={"UK (Remote)"}
+        draggable={false}
         key={i}
         id={i.toString()}
       />
