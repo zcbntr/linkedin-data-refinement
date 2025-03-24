@@ -1,5 +1,5 @@
 {
-    "jobdata": [
+    "jobData": [
         {
             "name": "Killing Machines Programmer",
             "company": "Defense Systems United"
@@ -31,6 +31,129 @@
         {
             "name": "Caffine Addict",
             "company": "WeDontWork"
+        },
+        {
+            "name": "Overtime Worker",
+            "company": "Local Multinational"
+        },
+        {
+            "name": "Middleweight Bug Fighter",
+            "company": "Ultimate Functional Components"
+        },
+        {
+            "name": "Entry Level Resume Padder",
+            "company": "Course Peddlers"
+        },
+        {
+            "name": "YouTube Tutorial Follower",
+            "company": "WASD Tech"
+        },
+        {
+            "name": "Standup Coordinator",
+            "company": "Office Chairs Inc."
+        },
+        {
+            "name": "Lead Cloud Overspender",
+            "company": "Legacy IT Specialists"
+        },
+        {
+            "name": "Exit Vim Expert",
+            "company": ":q! Ventures"
+        },
+        {
+            "name": "Competitive Programmer",
+            "company": "WWASD"
+        },
+        {
+            "name": "Junior COBOL Engineer",
+            "company": "Legacy IT Specialists"
+        },
+        {
+            "name": "Macrodata Refiner",
+            "company": "Lumon"
+        },
+        {
+            "name": "Vibe Coder (No experience required)",
+            "company": "Twitter"
+        },
+        {
+            "name": "10x Engineer",
+            "company": "Duolingo but for Dogs"
+        },
+        {
+            "name": "Code Thief Level 3",
+            "company": "Big Tech Company"
+        },
+        {
+            "name": "Crosswalk Identifier",
+            "company": "Full Self Driving This Year"
+        },
+        {
+            "name": "Useless Task Automater",
+            "company": "Legacy IT Specialists"
+        },
+        {
+            "name": "Stack Overflow Poster",
+            "company": "Local Multinational"
+        },
+        {
+            "name": "Prompt Engineer",
+            "company": "Local Multinational"
+        },
+        {
+            "name": "Rust Rewriter",
+            "company": "Big Tech Company"
+        },
+        {
+            "name": "Side Project Abandoner",
+            "company": "Local Multinational"
+        },
+        {
+            "name": "Esoteric Language Expert",
+            "company": "Local Multinational"
+        },
+        {
+            "name": "Calculator Debugger",
+            "company": "NASA Apollo Mission Support"
+        },
+        {
+            "name": "sudo rm -rf undoer",
+            "company": "Recently Funded Startup"
+        },
+        {
+            "name": "DROP TABLE * undoer",
+            "company": "Recently Funded Startup"
+        },
+        {
+            "name": "-10x Developer",
+            "company": "Recently Funded Startup"
+        },
+        {
+            "name": "Semi Colon Surgeon",
+            "company": "Legacy IT Specialists"
+        },
+        {
+            "name": "Layoff Planner",
+            "company": "Big Tech Company"
+        },
+        {
+            "name": "Clean Coder",
+            "company": "Developer Rehab"
+        },
+        {
+            "name": "LeetCode Completionist",
+            "company": "Big Tech Company"
+        },
+        {
+            "name": "RESTful Developer",
+            "company": "Matress Testing Inc."
         }
+    ],
+    "jobBins": [
+        "Fake Listing",
+        "Unqualified",
+        "Not related to search",
+        "Remote Job Spam",
+        "Apply"
     ]
 }
