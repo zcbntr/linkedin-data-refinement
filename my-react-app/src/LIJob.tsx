@@ -1,14 +1,45 @@
+import {
+  differenceInDays,
+  differenceInHours,
+  differenceInMilliseconds,
+  differenceInMinutes,
+  differenceInMonths,
+  differenceInYears,
+} from "date-fns";
 import LinkedInSVG from "./assets/linkedin.svg";
 
 type LIJobParams = {
   name: string;
   company: string;
+  location?: string;
+  postDateString?: string;
 };
 
-const LIJob = ({ name, company }: LIJobParams) => {
-  const location = "United Kingdom (Remote)";
+const LIJob = ({
+  name,
+  company,
+  location,
+  postDateString = "",
+}: LIJobParams) => {
+  if (!location) location = "United Kingdom (Remote)";
 
-  const postTimeString = "23 hours ago";
+  const postDateDate = new Date(postDateString);
+
+  if (isNaN(postDateDate.getTime())) {
+    const now = Date.now();
+    const millisecondsSince = differenceInMilliseconds(now, postDateDate);
+    if (millisecondsSince > 365 * 24 * 60 * 1000)
+      postDateString = `${differenceInYears(now, postDateDate)} Years Ago`;
+    else if (millisecondsSince > 30 * 24 * 60 * 1000)
+      postDateString = `${differenceInMonths(now, postDateDate)} Months Ago`;
+    else if (millisecondsSince > 24 * 60 * 1000)
+      postDateString = `${differenceInDays(now, postDateDate)} Days Ago`;
+    else if (millisecondsSince > 60 * 1000)
+      postDateString = `${differenceInHours(now, postDateDate)} Hours Ago`;
+    else if (millisecondsSince > 1000)
+      postDateString = `${differenceInMinutes(now, postDateDate)} Minutes Ago`;
+    else postDateString = `Now`;
+  }
 
   return (
     <div
@@ -26,7 +57,7 @@ const LIJob = ({ name, company }: LIJobParams) => {
           <span>{company} </span> · <span>{location}</span>
         </span>
         <div className="flex flex-row gap-2 text-sm">
-          <span className="text-green-900">{postTimeString}</span> ·
+          <span className="text-green-900">{postDateString}</span> ·
           <img src={LinkedInSVG} width={14}></img>
           <span className="text-gray-500">Easy Apply</span>
         </div>

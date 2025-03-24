@@ -147,6 +147,11 @@
         {
             "name": "RESTful Developer",
             "company": "Matress Testing Inc."
+        },
+        {
+            "name": "Asteriod Trajectory Data Modeler",
+            "company": "Prehistoric Technologies",
+            "postDateString": "About 65 million years ago"
         }
     ],
     "jobBins": [
