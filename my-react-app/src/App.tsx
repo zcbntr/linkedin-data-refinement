@@ -4,10 +4,19 @@ import LIJob from "./LIJob";
 import JobBin from "./JobBin";
 
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
+import { createRandomString, getTimeAgoString, randomDate } from "./utils";
+import { sub } from "date-fns";
 
 type BinCount = {
   name: string;
   count: number;
+};
+
+type Job = {
+  name: string;
+  company: string;
+  location: string;
+  postDateString: string;
 };
 
 function App() {
@@ -20,16 +29,45 @@ function App() {
     })
   );
 
-  const MAX_JOBS_ON_SCREEN = 20;
+  const MAX_JOBS_ON_SCREEN = 18;
   const TARGET_COUNT = 100;
   const completion_percentage = Math.round(0 / TARGET_COUNT);
 
-  const jobs: ReactNode[] = [];
+  const jobs: Job[] = jobdata.jobData.map((jobDatum) => {
+    let postDateString = jobDatum.postDateString ?? "";
+    if (isNaN(new Date(postDateString).getTime())) {
+      postDateString = getTimeAgoString(new Date(postDateString));
+    }
+
+    return {
+      name: jobDatum.name,
+      company: jobDatum.company,
+      location: jobDatum.location ?? "United Kingdom (Remote)",
+      postDateString: postDateString,
+    };
+  });
+  const usedJobNames: string[] = [];
+
+  const jobListingNodes: ReactNode[] = [];
   for (let i = 0; i < MAX_JOBS_ON_SCREEN; i++) {
-    jobs.push(<LIJob name={"test"} company="test" key={i} id={i.toString()} />);
+    const name = createRandomString(16);
+    const company = createRandomString(16);
+    const postDate = randomDate(sub(new Date(), { months: 1 }), new Date());
+    const postDateString = getTimeAgoString(postDate);
+
+    jobListingNodes.push(
+      <LIJob
+        name={name}
+        company={company}
+        postDateString={postDateString}
+        location={"United Kingdom (Remote)"}
+        key={i}
+        id={i.toString()}
+      />
+    );
   }
 
-  const jobBins: ReactNode[] = jobdata.jobBins.map((name) => {
+  const jobBinNodes: ReactNode[] = jobdata.jobBins.map((name) => {
     return (
       <JobBin
         name={name}
@@ -49,11 +87,11 @@ function App() {
             <h2 className="text-5xl">{completion_percentage}%</h2>
           </div>
           <div className="flex flex-row flex-wrap w-full h-full gap-5 place-content-center">
-            {jobs}
+            {jobListingNodes}
           </div>
           <div>
             <div className="md:mx-10 grid grid-cols-5 gap-5 flex-wrap">
-              {jobBins}
+              {jobBinNodes}
             </div>
           </div>
         </div>

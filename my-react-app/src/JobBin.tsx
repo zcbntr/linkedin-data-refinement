@@ -7,6 +7,7 @@ type JobBinParams = {
 };
 
 const JobBin = ({ name, percent, id }: JobBinParams) => {
+  // Draggable code
   const { isOver, setNodeRef } = useDroppable({
     id: id,
   });

@@ -1,11 +1,3 @@
-import {
-  differenceInDays,
-  differenceInHours,
-  differenceInMilliseconds,
-  differenceInMinutes,
-  differenceInMonths,
-  differenceInYears,
-} from "date-fns";
 import LinkedInSVG from "./assets/linkedin.svg";
 
 import { useDraggable } from "@dnd-kit/core";
@@ -14,7 +6,7 @@ type LIJobParams = {
   name: string;
   company: string;
   location?: string;
-  postDateString?: string;
+  postDateString: string;
   id: string;
 };
 
@@ -22,9 +14,10 @@ const LIJob = ({
   name,
   company,
   location = "United Kingdom (Remote)",
-  postDateString = "",
+  postDateString,
   id,
 }: LIJobParams) => {
+  // Draggable code
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: id,
   });
@@ -33,24 +26,6 @@ const LIJob = ({
         transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
       }
     : undefined;
-
-  const postDateDate = new Date(postDateString);
-
-  if (isNaN(postDateDate.getTime())) {
-    const now = Date.now();
-    const millisecondsSince = differenceInMilliseconds(now, postDateDate);
-    if (millisecondsSince > 365 * 24 * 60 * 1000)
-      postDateString = `${differenceInYears(now, postDateDate)} Years Ago`;
-    else if (millisecondsSince > 30 * 24 * 60 * 1000)
-      postDateString = `${differenceInMonths(now, postDateDate)} Months Ago`;
-    else if (millisecondsSince > 24 * 60 * 1000)
-      postDateString = `${differenceInDays(now, postDateDate)} Days Ago`;
-    else if (millisecondsSince > 60 * 1000)
-      postDateString = `${differenceInHours(now, postDateDate)} Hours Ago`;
-    else if (millisecondsSince > 1000)
-      postDateString = `${differenceInMinutes(now, postDateDate)} Minutes Ago`;
-    else postDateString = `Now`;
-  }
 
   return (
     <div
