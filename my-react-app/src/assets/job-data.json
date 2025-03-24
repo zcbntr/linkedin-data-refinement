@@ -2,7 +2,15 @@
     "jobData": [
         {
             "name": "Killing Machines Programmer",
-            "company": "Defense Systems United"
+            "company": "Knockheed Marchin"
+        },
+        {
+            "name": "F35 Button Presser",
+            "company": "Knockheed Martin"
+        },
+        {
+            "name": "Autonomouse Killing Machine Programmer",
+            "company": "Andurvillan"
         },
         {
             "name": "Junior JSON File Writer",
@@ -74,11 +82,11 @@
         },
         {
             "name": "Vibe Coder (No experience required)",
-            "company": "Twitter"
+            "company": "Twiter"
         },
         {
             "name": "10x Engineer",
-            "company": "Duolingo but for Dogs"
+            "company": "dulingo but for dogs"
         },
         {
             "name": "Code Thief Level 3",
@@ -86,7 +94,15 @@
         },
         {
             "name": "Crosswalk Identifier",
-            "company": "Full Self Driving This Year"
+            "company": "Testa"
+        },
+        {
+            "name": "Arch Linux Bragger",
+            "company": "NVim Plugins Group"
+        },
+        {
+            "name": "NeoVim Native",
+            "company": "We use Arch btw"
         },
         {
             "name": "Useless Task Automater",
@@ -152,6 +168,51 @@
             "name": "Asteriod Trajectory Data Modeler",
             "company": "Prehistoric Technologies",
             "postDateString": "About 65 million years ago"
+        },
+        {
+            "name": "Chief Product Canceler",
+            "company": "oogle"
+        },
+        {
+            "name": "Power Button User",
+            "company": "Tech Support Workers United"
+        },
+        {
+            "name": "Property Developer",
+            "company": "WhiteRock"
+        },
+        {
+            "name": "Cookie Baker",
+            "company": "Fairyland Cookies"
+        },
+        {
+            "name": "Variable Namer",
+            "company": "fooBarSoftware"
+        },
+        {
+            "name": "Computer Whisperer",
+            "company": "Legacy IT Company"
+        },
+        {
+            "name": "AGI Inventer",
+            "company": "ClosedAI",
+            "postDateString": "In about 100 years"
+        },
+        {
+            "name": "Terminator T100",
+            "company": "SkyNet",
+            "postDateString": "In about a year"
+        },
+        {
+            "name": "Neo",
+            "company": "MetaCortex",
+            "postDateString": "About 20 years ago"
+        },
+        {
+            "name": "Netrunner",
+            "company": "Arasaka Corporaton",
+            "postDateString": "2077",
+            "location": "Knight City"
         }
     ],
     "jobBins": [

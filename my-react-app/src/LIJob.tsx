@@ -8,20 +8,31 @@ import {
 } from "date-fns";
 import LinkedInSVG from "./assets/linkedin.svg";
 
+import { useDraggable } from "@dnd-kit/core";
+
 type LIJobParams = {
   name: string;
   company: string;
   location?: string;
   postDateString?: string;
+  id: string;
 };
 
 const LIJob = ({
   name,
   company,
-  location,
+  location = "United Kingdom (Remote)",
   postDateString = "",
+  id,
 }: LIJobParams) => {
-  if (!location) location = "United Kingdom (Remote)";
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: id,
+  });
+  const style = transform
+    ? {
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+      }
+    : undefined;
 
   const postDateDate = new Date(postDateString);
 
@@ -43,8 +54,11 @@ const LIJob = ({
 
   return (
     <div
+      ref={setNodeRef}
+      style={style}
+      {...listeners}
+      {...attributes}
       className="w-96 py-2 px-2.5 flex flex-row gap-3 border-1 border-gray-600 min-w-96"
-      draggable
     >
       <div className="flex flex-col place-content-start pt-1.5">
         <img src={LinkedInSVG} width={64}></img>
