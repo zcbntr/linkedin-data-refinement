@@ -47,9 +47,7 @@ function App() {
       />
     );
   }
-  const [jobListingNodes, setJobListingNodes] = useState<ReactNode[]>(
-    jobListingNodesVariable
-  );
+  const jobListingNodes = jobListingNodesVariable;
 
   useEffect(() => {
     // Get random job data
