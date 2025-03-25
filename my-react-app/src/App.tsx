@@ -8,8 +8,16 @@ import { sub } from "date-fns";
 import { Job } from "./types";
 
 function App() {
-  const MAX_JOBS_ON_SCREEN = 18;
-  const TARGET_COUNT = 100;
+  const MAX_JOBS_ON_SCREEN = Math.max(
+    Math.min(
+      Math.round(
+        Math.floor((screen.width - 100) / 400) *
+          Math.floor((screen.height - 400) / 100)
+      ),
+      jobdata.jobData.length
+    ),
+    12
+  );
   const [completionPercentage, setCompletionPercentage] = useState<number>(0);
 
   // Should be a hashmap for better performance
@@ -93,33 +101,30 @@ function App() {
         id={chosenJobData.name + chosenJobData.category}
       />
     );
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(binCounts), completionPercentage]);
+  }, [completionPercentage]);
 
   const jobBinNodes: ReactNode[] = useMemo(() => {
-    console.log("useMemo");
     return jobdata.jobBins.map((name, i) => {
       return (
         <JobBin name={name} percent={binCounts[i] * 10} key={name} id={name} />
       );
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [...binCounts, completionPercentage]);
+  }, [binCounts]);
 
   return (
     <DndContext onDragEnd={handleDragEnd}>
-      <main className="flex flex-col place-content-between bg-zinc-900 min-h-svh">
-        <div className="flex flex-col place-content-between gap-6 h-full grow pb-10">
-          <div className="flex flex-row place-content-between gap-20 mx-auto">
-            <h1 className="text-5xl">LinkedIn Data Refinement</h1>
+      <main className="flex flex-col place-content-between bg-zinc-900 min-h-svh w-full">
+        <div className="flex flex-col place-content-between gap-6 h-full grow pb-10 w-full">
+          <div className="flex flex-row place-content-between gap-20 mx-auto select-none">
+            <h1 className="text-5xl pt-2">LinkedIn Data Refinement</h1>
             <h2 className="text-5xl">{completionPercentage}%</h2>
           </div>
           <div className="flex flex-row flex-wrap w-full h-full gap-5 place-content-center">
             {jobListingNodes}
           </div>
 
-          <div className="md:mx-10 grid grid-cols-5 gap-5 flex-wrap h-20">
+          <div className="md:mx-10 md:grid md:grid-cols-5 gap-5 flex flex-row flex-wrap h-20">
             {jobBinNodes}
           </div>
         </div>
@@ -154,7 +159,7 @@ function App() {
       binCountsCopy[index] = binCountsCopy[index] + 1;
 
       setBinCounts(binCountsCopy);
-      setCompletionPercentage(completionPercentage + 1);
+      setCompletionPercentage(completionPercentage + 2);
     }
   }
 }

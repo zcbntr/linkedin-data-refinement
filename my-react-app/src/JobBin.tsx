@@ -22,7 +22,7 @@ const JobBin = ({ name, percent, id }: JobBinParams) => {
     <div
       ref={percent != 100 ? setNodeRef : undefined}
       style={percent != 100 ? style : undefined}
-      className={`${completionStyle} w-full p-2 flex text-lg md:text-xl flex-row gap-3 border-1 border-gray-600 min-w-52 place-content-between`}
+      className={`${completionStyle} select-none w-full p-2 flex text-lg md:text-xl flex-row gap-3 border-1 border-gray-600 min-w-52 place-content-between`}
     >
       <div className="flex flex-col place-content-center font-semibold">
         {name}

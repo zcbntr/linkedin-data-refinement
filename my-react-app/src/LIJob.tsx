@@ -36,10 +36,10 @@ const LIJob = ({
       style={draggable ? style : undefined}
       {...listeners}
       {...attributes}
-      className="w-96 py-2 px-2.5 flex flex-row gap-2 border-1 border-gray-600 min-w-96"
+      className="w-96 py-2 px-2.5 flex flex-row gap-2 border-1 border-gray-600 min-w-96 select-none"
     >
       <div className="flex flex-col place-content-start pt-1.5">
-        <img src={LinkedInSVG} width={64}></img>
+        <img src={LinkedInSVG} width={screen.width > 512 ? 64 : 32}></img>
       </div>
       <div className="flex flex-col gap-1">
         <div className="flex flex-row">
