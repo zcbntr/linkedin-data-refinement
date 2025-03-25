@@ -44,6 +44,10 @@ function App() {
   }, [jobListingArray]);
 
   useEffect(() => {
+    if (usedJobs.length == jobdata.jobData.length) {
+      return;
+    }
+
     // Get random job data
     let chosenJobDataNumber: number = Math.round(
       Math.min(
@@ -51,10 +55,7 @@ function App() {
         jobdata.jobData.length - 1
       )
     );
-    while (
-      usedJobs.includes(chosenJobDataNumber) &&
-      usedJobs.length < jobdata.jobData.length
-    ) {
+    while (usedJobs.includes(chosenJobDataNumber)) {
       chosenJobDataNumber = Math.round(
         Math.min(
           Math.random() * jobdata.jobData.length,
