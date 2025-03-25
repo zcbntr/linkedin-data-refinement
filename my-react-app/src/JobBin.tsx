@@ -15,14 +15,21 @@ const JobBin = ({ name, percent, id }: JobBinParams) => {
     color: isOver ? "green" : undefined,
   };
 
+  // Completion code
+  const completionStyle = percent == 100 ? "text-gray-500" : "";
+
   return (
     <div
-      ref={setNodeRef}
-      style={style}
-      className="w-full p-2 flex flex-row gap-3 border-1 border-gray-600 min-w-48 place-content-between"
+      ref={percent != 100 ? setNodeRef : undefined}
+      style={percent != 100 ? style : undefined}
+      className={`${completionStyle} w-full p-2 flex text-lg md:text-xl flex-row gap-3 border-1 border-gray-600 min-w-52 place-content-between`}
     >
-      <div className="font-semibold">{name}</div>
-      <div className="font-semibold">{percent}%</div>
+      <div className="flex flex-col place-content-center font-semibold">
+        {name}
+      </div>
+      <div className="flex flex-col place-content-center font-semibold">
+        {percent}%
+      </div>
     </div>
   );
 };

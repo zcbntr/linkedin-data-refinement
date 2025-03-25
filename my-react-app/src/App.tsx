@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useMemo, useState } from "react";
 import jobdata from "../src/assets/job-data.json";
 import LIJob from "./LIJob";
 import JobBin from "./JobBin";
@@ -16,6 +16,7 @@ function App() {
   const [usedJobs, setUsedJobs] = useState<number[]>([]);
 
   const [binCounts, setBinCounts] = useState<number[]>([0, 0, 0, 0, 0]);
+  const binLookup = [...jobdata.jobBins];
 
   // Probably needs to be a state rather than a variable
   const jobListingNodesVariable: ReactNode[] = [];
@@ -43,7 +44,6 @@ function App() {
   );
 
   useEffect(() => {
-    console.log("Running useEffect");
     // Get random job data
     let chosenJobDataNumber: number = Math.round(
       Math.min(
@@ -80,7 +80,6 @@ function App() {
     const chosenJobNodeNumber = Math.round(
       Math.min(Math.random() * MAX_JOBS_ON_SCREEN, MAX_JOBS_ON_SCREEN - 1)
     );
-    console.log(chosenJobNodeNumber);
 
     jobListingNodes[chosenJobNodeNumber] = (
       <LIJob
@@ -88,6 +87,7 @@ function App() {
         company={chosenJobData.company}
         postDateString={chosenJobData.postDateString}
         location={chosenJobData.location}
+        category={0}
         draggable={true}
         key={chosenJobData.name}
         id={chosenJobData.name + chosenJobData.category}
@@ -95,17 +95,22 @@ function App() {
     );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [binCounts]);
+  }, [JSON.stringify(binCounts), completionPercentage]);
 
-  // Memoify this
-  const jobBinNodes: ReactNode[] = jobdata.jobBins.map((name) => {
-    return <JobBin name={name} percent={0} key={name} id={name} />;
-  });
+  const jobBinNodes: ReactNode[] = useMemo(() => {
+    console.log("useMemo");
+    return jobdata.jobBins.map((name, i) => {
+      return (
+        <JobBin name={name} percent={binCounts[i] * 10} key={name} id={name} />
+      );
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [...binCounts, completionPercentage]);
 
   return (
     <DndContext onDragEnd={handleDragEnd}>
-      <main className="flex flex-col place-content-between gap-20 bg-zinc-900">
-        <div className="flex flex-col place-content-between gap-3 min-h-svh p-3">
+      <main className="flex flex-col place-content-between bg-zinc-900 min-h-svh">
+        <div className="flex flex-col place-content-between gap-6 h-full grow pb-10">
           <div className="flex flex-row place-content-between gap-20 mx-auto">
             <h1 className="text-5xl">LinkedIn Data Refinement</h1>
             <h2 className="text-5xl">{completionPercentage}%</h2>
@@ -113,14 +118,13 @@ function App() {
           <div className="flex flex-row flex-wrap w-full h-full gap-5 place-content-center">
             {jobListingNodes}
           </div>
-          <div>
-            <div className="md:mx-10 grid grid-cols-5 gap-5 flex-wrap">
-              {jobBinNodes}
-            </div>
+
+          <div className="md:mx-10 grid grid-cols-5 gap-5 flex-wrap h-20">
+            {jobBinNodes}
           </div>
         </div>
-        <footer className="bg-zinc-950 p-5 flex flex-col gap-2">
-          <div className="flex flex-row place-content-center gap-3 text-white">
+        <footer className="bg-zinc-950 p-2 flex flex-col gap-2">
+          <div className="flex flex-row place-content-center gap-1 text-white">
             <a className="hover:underline" href={"https://zcbn.dev/"}>
               © 2025 Zac Benattar
             </a>
@@ -132,7 +136,7 @@ function App() {
               GitHub
             </a>
           </div>
-          <div className="text-gray-500 mx-auto p-3 text-center">
+          <div className="text-gray-500 mx-auto text-center">
             This work is parody. Not affiliated with LinkedIn. The LinkedIn logo
             is property of LinkedIn. Any resemblence to real companies, brands,
             or trademarks is unintentional.
@@ -146,10 +150,11 @@ function App() {
     const { over } = event;
     if (over) {
       const binCountsCopy = binCounts;
-      const index = binCounts.findIndex((x) => x.name === over.id);
-      binCountsCopy[index].count = binCountsCopy[index]!.count + 1;
+      const index = binLookup.findIndex((x) => x === over.id);
+      binCountsCopy[index] = binCountsCopy[index] + 1;
 
       setBinCounts(binCountsCopy);
+      setCompletionPercentage(completionPercentage + 1);
     }
   }
 }

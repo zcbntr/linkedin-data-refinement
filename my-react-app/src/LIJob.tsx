@@ -17,7 +17,6 @@ const LIJob = ({
   company,
   location = "United Kingdom (Remote)",
   postDateString,
-  category,
   id,
   draggable,
 }: LIJobParams) => {
