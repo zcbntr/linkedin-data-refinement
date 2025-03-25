@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useMemo, useState } from "react";
-import jobdata from "../src/assets/job-data.json";
+import jobdata from "./assets/job-data.json";
 import LIJob from "./LIJob";
 import JobBin from "./JobBin";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
