@@ -5,7 +5,10 @@ import {
   differenceInMinutes,
   differenceInMonths,
   differenceInYears,
+  sub,
 } from "date-fns";
+import { Job } from "./types";
+import jobdata from "./assets/job-data.json";
 
 export function getTimeAgoString(date: Date): string {
   const now = Date.now();
@@ -40,4 +43,37 @@ export function createRandomString(length: number): string {
     result += chars[number % chars.length];
   });
   return result;
+}
+
+export function randomLocation(): string {
+  let location = "UK (Remote)";
+  if (jobdata.locations.length > 0) {
+    location =
+      jobdata.locations[Math.floor(Math.random() * jobdata.locations.length)];
+    if (Math.random() < 0.5 && location.length < 12) {
+      location = location + " (Remote)";
+    }
+  }
+
+  return location;
+}
+
+export function createGibberishJobs(count: number): Job[] {
+  const jobs: Job[] = [];
+  for (let i = 0; i < count; i++) {
+    const name = createRandomString(16);
+    const company = createRandomString(12);
+    const postDate = randomDate(sub(new Date(), { months: 1 }), new Date());
+    const postDateString = getTimeAgoString(postDate);
+
+    jobs.push({
+      name: name,
+      company: company,
+      postDateString: postDateString,
+      location: randomLocation(),
+      category: "",
+    });
+  }
+
+  return jobs;
 }

@@ -1,25 +1,15 @@
 import LinkedInSVG from "./assets/linkedin.svg";
 
 import { useDraggable } from "@dnd-kit/core";
+import { Job } from "./types";
 
 type LIJobParams = {
-  name: string;
-  company: string;
-  location?: string;
-  postDateString: string;
-  category: number;
+  job: Job;
   id: string;
   draggable: boolean;
 };
 
-const LIJob = ({
-  name,
-  company,
-  location = "United Kingdom (Remote)",
-  postDateString,
-  id,
-  draggable,
-}: LIJobParams) => {
+const LIJob = ({ job, id, draggable }: LIJobParams) => {
   // Draggable code
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: id,
@@ -43,13 +33,13 @@ const LIJob = ({
       </div>
       <div className="flex flex-col gap-1">
         <div className="flex flex-row">
-          <span className="text-blue-600 font-semibold">{name}</span>
+          <span className="text-blue-600 font-semibold">{job.name}</span>
         </div>
         <span className="text-sm">
-          <span>{company} </span> · <span>{location}</span>
+          <span>{job.company} </span> · <span>{job.location}</span>
         </span>
         <div className="flex flex-row gap-2 text-sm">
-          <span className="text-green-900">{postDateString}</span> ·
+          <span className="text-green-900">{job.postDateString}</span> ·
           <img src={LinkedInSVG} width={14}></img>
           <span className="text-gray-500">Easy Apply</span>
         </div>

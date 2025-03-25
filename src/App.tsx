@@ -3,7 +3,12 @@ import jobdata from "./assets/job-data.json";
 import LIJob from "./LIJob";
 import JobBin from "./JobBin";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
-import { createRandomString, getTimeAgoString, randomDate } from "./utils";
+import {
+  createGibberishJobs,
+  getTimeAgoString,
+  randomDate,
+  randomLocation,
+} from "./utils";
 import { sub } from "date-fns";
 import { Job } from "./types";
 
@@ -18,6 +23,11 @@ function App() {
     ),
     12
   );
+
+  const [jobListingArray, setJobListingArray] = useState<Job[]>(
+    createGibberishJobs(MAX_JOBS_ON_SCREEN)
+  );
+
   const [completionPercentage, setCompletionPercentage] = useState<number>(0);
 
   // Should be a hashmap for better performance
@@ -27,27 +37,11 @@ function App() {
   const binLookup = [...jobdata.jobBins];
 
   // Probably needs to be a state rather than a variable
-  const jobListingNodesVariable: ReactNode[] = [];
-  for (let i = 0; i < MAX_JOBS_ON_SCREEN; i++) {
-    const name = createRandomString(16);
-    const company = createRandomString(16);
-    const postDate = randomDate(sub(new Date(), { months: 1 }), new Date());
-    const postDateString = getTimeAgoString(postDate);
-
-    jobListingNodesVariable.push(
-      <LIJob
-        name={name}
-        company={company}
-        postDateString={postDateString}
-        location={"UK (Remote)"}
-        category={0}
-        draggable={false}
-        key={i}
-        id={i.toString()}
-      />
-    );
-  }
-  const jobListingNodes = jobListingNodesVariable;
+  const jobListingNodes: ReactNode[] = useMemo(() => {
+    return jobListingArray.map((x, i) => {
+      return <LIJob job={x} draggable={false} key={i} id={i.toString()} />;
+    });
+  }, [jobListingArray]);
 
   useEffect(() => {
     // Get random job data
@@ -77,7 +71,7 @@ function App() {
     const chosenJobData: Job = {
       name: jobdata.jobData[chosenJobDataNumber].name,
       company: jobdata.jobData[chosenJobDataNumber].company,
-      location: "UK (Remote)",
+      location: randomLocation(),
       postDateString:
         jobdata.jobData[chosenJobDataNumber].postDateString ?? postDateString,
       category: "",
@@ -87,13 +81,11 @@ function App() {
       Math.min(Math.random() * MAX_JOBS_ON_SCREEN, MAX_JOBS_ON_SCREEN - 1)
     );
 
+    console.log(chosenJobNodeNumber);
+
     jobListingNodes[chosenJobNodeNumber] = (
       <LIJob
-        name={chosenJobData.name}
-        company={chosenJobData.company}
-        postDateString={chosenJobData.postDateString}
-        location={chosenJobData.location}
-        category={0}
+        job={chosenJobData}
         draggable={true}
         key={chosenJobData.name}
         id={chosenJobData.name + chosenJobData.category}

@@ -175,8 +175,12 @@
             "company": "oogle"
         },
         {
+            "name": "Immutable Phone Builder",
+            "company": "Totorola"
+        },
+        {
             "name": "Power Button User",
-            "company": "Tech Support Workers United"
+            "company": "Tech Support United"
         },
         {
             "name": "Property Developer",
@@ -222,5 +226,46 @@
         "Not related to search",
         "Remote Job Spam",
         "Apply"
+    ],
+    "locations": [
+        "Havant",
+        "Greater Manchester",
+        "Weymouth",
+        "Chichester",
+        "Bournemouth",
+        "Dundee",
+        "Isle of Man",
+        "Isle of Wight",
+        "Southsea",
+        "North Sea",
+        "Dublin",
+        "Newcastle",
+        "Liverpool",
+        "London",
+        "City of London",
+        "Edinborough",
+        "Skegness",
+        "Penistone",
+        "Sheffield",
+        "Warwick",
+        "Coventry",
+        "Derby",
+        "Dover",
+        "Leamington Spa",
+        "Durham",
+        "Brighton",
+        "York",
+        "Skegness",
+        "Leeds",
+        "Oldham",
+        "Cheltenham",
+        "Bristol",
+        "Bath",
+        "Exeter",
+        "Southampton",
+        "Oxford",
+        "Cambridge",
+        "Whitby",
+        "Wolverhampton"
     ]
 }
