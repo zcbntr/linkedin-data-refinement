@@ -30,6 +30,12 @@ function App() {
 
   const [completionPercentage, setCompletionPercentage] = useState<number>(0);
 
+  // Holds current special job node and its index to track where it is
+  const [currentSpecialJobNodeIndex, setCurrentSpecialJobNodeIndex] =
+    useState<number>(0);
+  const [currentSpecialJobNode, setCurrentSpecialJobNode] =
+    useState<ReactNode>();
+
   // Should be a hashmap for better performance
   const [usedJobs, setUsedJobs] = useState<number[]>([]);
 
@@ -44,15 +50,30 @@ function App() {
   }, [jobListingArray]);
 
   useEffect(() => {
-    if (usedJobs.length == jobdata.jobs.length) {
-      return;
+    // Reset previous special job
+    if (currentSpecialJobNodeIndex >= 0) {
+      jobListingNodes[currentSpecialJobNodeIndex] = (
+        <LIJob
+          job={jobListingArray[currentSpecialJobNodeIndex]}
+          draggable={false}
+          key={currentSpecialJobNodeIndex}
+          id={currentSpecialJobNodeIndex.toString()}
+        />
+      );
+
+      if (completionPercentage >= 100) {
+        return;
+      }
     }
 
     // Get random job data
     let chosenJobDataNumber: number = Math.round(
       Math.min(Math.random() * jobdata.jobs.length, jobdata.jobs.length - 1)
     );
-    while (usedJobs.includes(chosenJobDataNumber)) {
+    while (
+      usedJobs.includes(chosenJobDataNumber) &&
+      usedJobs.length < jobdata.jobs.length
+    ) {
       chosenJobDataNumber = Math.round(
         Math.min(Math.random() * jobdata.jobs.length, jobdata.jobs.length - 1)
       );
@@ -76,6 +97,15 @@ function App() {
       Math.min(Math.random() * MAX_JOBS_ON_SCREEN, MAX_JOBS_ON_SCREEN - 1)
     );
 
+    setCurrentSpecialJobNodeIndex(chosenJobNodeNumber);
+    setCurrentSpecialJobNode(
+      <LIJob
+        job={chosenJobData}
+        draggable={true}
+        key={chosenJobData.name}
+        id={chosenJobData.name + chosenJobData.category}
+      />
+    );
     jobListingNodes[chosenJobNodeNumber] = (
       <LIJob
         job={chosenJobData}
@@ -159,7 +189,7 @@ function App() {
         setCompletionPercentage(completionPercentage + 1);
       else if (completionPercentage >= 50)
         setCompletionPercentage(completionPercentage + 2);
-      else setCompletionPercentage(completionPercentage + 99);
+      else setCompletionPercentage(completionPercentage + 5);
 
       if (completionPercentage >= 100) {
         alert(
