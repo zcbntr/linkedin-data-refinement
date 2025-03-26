@@ -33,8 +33,6 @@ function App() {
   // Holds current special job node and its index to track where it is
   const [currentSpecialJobNodeIndex, setCurrentSpecialJobNodeIndex] =
     useState<number>(0);
-  const [currentSpecialJobNode, setCurrentSpecialJobNode] =
-    useState<ReactNode>();
 
   // Should be a hashmap for better performance
   const [usedJobs, setUsedJobs] = useState<number[]>([]);
@@ -98,14 +96,6 @@ function App() {
     );
 
     setCurrentSpecialJobNodeIndex(chosenJobNodeNumber);
-    setCurrentSpecialJobNode(
-      <LIJob
-        job={chosenJobData}
-        draggable={true}
-        key={chosenJobData.name}
-        id={chosenJobData.name + chosenJobData.category}
-      />
-    );
     jobListingNodes[chosenJobNodeNumber] = (
       <LIJob
         job={chosenJobData}
@@ -192,6 +182,7 @@ function App() {
       else setCompletionPercentage(completionPercentage + 5);
 
       if (completionPercentage >= 100) {
+        setJobListingArray([]);
         alert(
           "I completed LinkedIn Data Refinement and all I got was this stupid alert message"
         );
