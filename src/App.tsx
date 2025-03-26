@@ -133,7 +133,7 @@ function App() {
         <div className="flex flex-col place-content-between gap-6 h-full grow pb-10 w-full">
           <div className="flex flex-row place-content-between gap-20 mx-auto select-none pt-2">
             <h1 className="text-5xl">LinkedIn Data Refinement</h1>
-            <h2 className="text-5xl">{+completionPercentage.toFixed(20)}%</h2>
+            <h2 className="text-5xl">{+completionPercentage.toFixed(10)}%</h2>
           </div>
           <div className="flex flex-row flex-wrap w-full h-full gap-5 place-content-center">
             {jobListingNodes}
@@ -178,11 +178,11 @@ function App() {
       setBinCounts(binCountsCopy);
       // Add to completion percentage - with scaling
       if (completionPercentage >= 99.999)
-        setCompletionPercentage(completionPercentage + 0.0001);
+        setCompletionPercentage(completionPercentage + 0.000015);
       else if (completionPercentage >= 99.99)
-        setCompletionPercentage(completionPercentage + 0.001);
+        setCompletionPercentage(completionPercentage + 0.0001);
       else if (completionPercentage >= 99.9)
-        setCompletionPercentage(completionPercentage + 0.01);
+        setCompletionPercentage(completionPercentage + 0.005);
       else if (completionPercentage >= 99)
         setCompletionPercentage(completionPercentage + 0.1);
       else if (completionPercentage >= 90)
