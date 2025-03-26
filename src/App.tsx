@@ -16,11 +16,11 @@ function App() {
   const MAX_JOBS_ON_SCREEN = Math.max(
     Math.min(
       Math.round(
-        Math.floor((screen.width - 100) / 400) *
+        Math.floor((screen.width - 200) / 400) *
           Math.floor((screen.height - 400) / 100)
       ),
       jobdata.jobData.length
-    ),
+    ) - 4,
     12
   );
 
@@ -101,14 +101,16 @@ function App() {
         <JobBin name={name} percent={binCounts[i] * 10} key={name} id={name} />
       );
     });
-  }, [binCounts]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [...binCounts]);
 
   return (
     <DndContext onDragEnd={handleDragEnd}>
       <main className="flex flex-col place-content-between bg-zinc-900 min-h-svh w-full">
         <div className="flex flex-col place-content-between gap-6 h-full grow pb-10 w-full">
-          <div className="flex flex-row place-content-between gap-20 mx-auto select-none">
-            <h1 className="text-5xl pt-2">LinkedIn Data Refinement</h1>
+          <div className="flex flex-row place-content-between gap-20 mx-auto select-none pt-2">
+            <h1 className="text-5xl">LinkedIn Data Refinement</h1>
             <h2 className="text-5xl">{completionPercentage}%</h2>
           </div>
           <div className="flex flex-row flex-wrap w-full h-full gap-5 place-content-center">
