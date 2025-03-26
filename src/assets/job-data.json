@@ -2,15 +2,18 @@
     "jobs": [
         {
             "name": "Killing Machines Programmer",
-            "company": "Knockheed Marchin"
+            "company": "Knockheed Marchin",
+            "location": "Fort Worth, Texas"
         },
         {
             "name": "F35 Button Presser",
-            "company": "Knockheed Martin"
+            "company": "Knockheed Marchin",
+            "location": "Fort Worth, Texas"
         },
         {
             "name": "Autonomous Killing Machine Dev",
-            "company": "Andurvil"
+            "company": "Andurvil",
+            "location": "United States"
         },
         {
             "name": "Junior JSON File Writer",
@@ -39,7 +42,8 @@
         },
         {
             "name": "Caffine Addict",
-            "company": "WeDontWork"
+            "company": "WeDontWork",
+            "location": "New York City"
         },
         {
             "name": "Overtime Worker",
@@ -47,7 +51,8 @@
         },
         {
             "name": "Middleweight Bug Fighter",
-            "company": "Ultimate Functional Components"
+            "company": "Ultimate Functional Components",
+            "location": "Las Vegas, Nevada"
         },
         {
             "name": "Entry Level Resume Padder",
@@ -79,15 +84,17 @@
         },
         {
             "name": "Macrodata Refiner",
-            "company": "Lumon"
+            "company": "Lumon",
+            "location": "Kier"
         },
         {
             "name": "Vibe Coder (No experience required)",
-            "company": "Twiter"
+            "company": "Twiter",
+            "location": "New York City"
         },
         {
             "name": "10x Engineer",
-            "company": "dulingo but for dogs"
+            "company": "duolingo but for dogs"
         },
         {
             "name": "Code Thief Level 3",
@@ -95,7 +102,13 @@
         },
         {
             "name": "Crosswalk Identifier",
-            "company": "Testa"
+            "company": "Testa",
+            "location": "United States"
+        },
+        {
+            "name": "Input Data Verifier",
+            "company": "AI Traning Inc.",
+            "location": "Null Island"
         },
         {
             "name": "Arch Linux Bragger",
@@ -131,7 +144,8 @@
         },
         {
             "name": "Calculator Debugger",
-            "company": "Apollo Mission Support"
+            "company": "Apollo Mission Support",
+            "location": "Houston, Texas"
         },
         {
             "name": "sudo rm -rf undoer",
@@ -151,7 +165,8 @@
         },
         {
             "name": "Layoff Planner",
-            "company": "Big Tech Company"
+            "company": "Big Tech Company",
+            "location": "Head Office"
         },
         {
             "name": "Clean Coder",
@@ -163,20 +178,24 @@
         },
         {
             "name": "RESTful Developer",
-            "company": "Matress Testing Inc."
+            "company": "Matress Testing Inc.",
+            "location": "At home"
         },
         {
             "name": "Asteriod Trajectory Data Modeler",
             "company": "Prehistoric Technologies",
+            "location": "Pangea",
             "postDateString": "About 65 million years ago"
         },
         {
             "name": "Chief Product Canceler",
-            "company": "oogle"
+            "company": "oogle",
+            "location": "Moutain View"
         },
         {
             "name": "Immutable Phone Builder",
-            "company": "Totorola"
+            "company": "Totorola",
+            "location": "Japan"
         },
         {
             "name": "Power Button User",
@@ -188,7 +207,7 @@
         },
         {
             "name": "Cookie Baker",
-            "company": "Fairyland Cookies"
+            "company": "Pop-ups limited"
         },
         {
             "name": "Variable Namer",
@@ -201,16 +220,19 @@
         {
             "name": "AGI Inventer",
             "company": "ClosedAI",
+            "location": "The Cloud",
             "postDateString": "In about 100 years"
         },
         {
             "name": "Terminator T100",
             "company": "SkyNet",
+            "location": "Los Angeles",
             "postDateString": "In about a year"
         },
         {
             "name": "Neo",
             "company": "MetaCortex",
+            "location": "The Matrix",
             "postDateString": "About 20 years ago"
         },
         {

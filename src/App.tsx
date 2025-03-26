@@ -50,17 +50,11 @@ function App() {
 
     // Get random job data
     let chosenJobDataNumber: number = Math.round(
-      Math.min(
-        Math.random() * jobdata.jobs.length,
-        jobdata.jobs.length - 1
-      )
+      Math.min(Math.random() * jobdata.jobs.length, jobdata.jobs.length - 1)
     );
     while (usedJobs.includes(chosenJobDataNumber)) {
       chosenJobDataNumber = Math.round(
-        Math.min(
-          Math.random() * jobdata.jobs.length,
-          jobdata.jobs.length - 1
-        )
+        Math.min(Math.random() * jobdata.jobs.length, jobdata.jobs.length - 1)
       );
     }
     setUsedJobs([...usedJobs, chosenJobDataNumber]);
@@ -72,8 +66,7 @@ function App() {
     const chosenJobData: Job = {
       name: jobdata.jobs[chosenJobDataNumber].name,
       company: jobdata.jobs[chosenJobDataNumber].company,
-      location:
-        jobdata.jobs[chosenJobDataNumber].location ?? randomLocation(),
+      location: jobdata.jobs[chosenJobDataNumber].location ?? randomLocation(),
       postDateString:
         jobdata.jobs[chosenJobDataNumber].postDateString ?? postDateString,
       category: "",
@@ -110,7 +103,7 @@ function App() {
         <div className="flex flex-col place-content-between gap-6 h-full grow pb-10 w-full">
           <div className="flex flex-row place-content-between gap-20 mx-auto select-none pt-2">
             <h1 className="text-5xl">LinkedIn Data Refinement</h1>
-            <h2 className="text-5xl">{completionPercentage}%</h2>
+            <h2 className="text-5xl">{+completionPercentage.toFixed(20)}%</h2>
           </div>
           <div className="flex flex-row flex-wrap w-full h-full gap-5 place-content-center">
             {jobListingNodes}
@@ -144,6 +137,8 @@ function App() {
   );
 
   function handleDragEnd(event: DragEndEvent) {
+    if (completionPercentage >= 100) return;
+
     const { over } = event;
     if (over) {
       const binCountsCopy = binCounts;
@@ -151,7 +146,29 @@ function App() {
       binCountsCopy[index] = binCountsCopy[index] + 1;
 
       setBinCounts(binCountsCopy);
-      setCompletionPercentage(completionPercentage + 2);
+      // Add to completion percentage - with scaling
+      if (completionPercentage >= 99.999)
+        setCompletionPercentage(completionPercentage + 0.0001);
+      else if (completionPercentage >= 99.99)
+        setCompletionPercentage(completionPercentage + 0.001);
+      else if (completionPercentage >= 99.9)
+        setCompletionPercentage(completionPercentage + 0.01);
+      else if (completionPercentage >= 99)
+        setCompletionPercentage(completionPercentage + 0.1);
+      else if (completionPercentage >= 90)
+        setCompletionPercentage(completionPercentage + 1);
+      else if (completionPercentage >= 50)
+        setCompletionPercentage(completionPercentage + 2);
+      else setCompletionPercentage(completionPercentage + 99);
+
+      if (completionPercentage >= 100) {
+        alert(
+          "I completed LinkedIn Data Refinement and all I got was this stupid alert message"
+        );
+        console.log(
+          "I completed LinkedIn Data Refinement but I also got this stupid console message"
+        );
+      }
     }
   }
 }

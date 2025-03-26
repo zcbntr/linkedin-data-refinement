@@ -22,15 +22,15 @@ const LIJob = ({ job, id, draggable }: LIJobParams) => {
 
   // Get company initials. Arbitrarily choose to be one or two characters long
   const companyInitials =
-    job.company.charCodeAt(0) % 2 && job.company.length > 1
+    !(job.company.charCodeAt(0) % 2) && job.company.length > 1
       ? job.company
           .split(" ")
           .map((n) => n[0])
-          .join(".")
+          .join("")
       : job.company
           .split(" ")
           .map((n) => n[0] + n[1])
-          .join(".");
+          .join("");
 
   // Generate company colour using company name modulo 16 (to get a hex value), and some primes for variation
   const hexCharacters = "0123456789abcdef";
