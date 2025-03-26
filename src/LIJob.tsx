@@ -20,6 +20,25 @@ const LIJob = ({ job, id, draggable }: LIJobParams) => {
       }
     : undefined;
 
+  // Get company initials. Arbitrarily choose to be one or two characters long
+  const companyInitials =
+    job.company.charCodeAt(0) % 2 && job.company.length > 1
+      ? job.company
+          .split(" ")
+          .map((n) => n[0])
+          .join(".")
+      : job.company
+          .split(" ")
+          .map((n) => n[0] + n[1])
+          .join(".");
+
+  // Generate company colour using company name modulo 16 (to get a hex value), and some primes for variation
+  const hexCharacters = "0123456789abcdef";
+  const companyColour: string =
+    hexCharacters[(job.company.charCodeAt(0) * 7907) % 16] +
+    hexCharacters[(job.company.charCodeAt(1) * 7901) % 16] +
+    hexCharacters[(job.company.charCodeAt(2) * 7919) % 16];
+
   return (
     <div
       ref={draggable ? setNodeRef : undefined}
@@ -29,7 +48,11 @@ const LIJob = ({ job, id, draggable }: LIJobParams) => {
       className="w-96 py-2 px-2.5 flex flex-row gap-2 border-1 border-gray-600 min-w-96 select-none"
     >
       <div className="flex flex-col place-content-start pt-1.5">
-        <img src={LinkedInSVG} width={screen.width > 512 ? 64 : 32}></img>
+        {/* Get image from https://dummyimage.com/ by Russell Heimlich */}
+        <img
+          src={`https://dummyimage.com/64x64/${companyColour}/fff.git&text=${companyInitials}`}
+          width={screen.width > 512 ? 64 : 32}
+        ></img>
       </div>
       <div className="flex flex-col gap-1">
         <div className="flex flex-row">
