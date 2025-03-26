@@ -19,7 +19,7 @@ function App() {
         Math.floor((screen.width - 200) / 400) *
           Math.floor((screen.height - 400) / 100)
       ),
-      jobdata.jobData.length
+      jobdata.jobs.length
     ) - 4,
     12
   );
@@ -44,22 +44,22 @@ function App() {
   }, [jobListingArray]);
 
   useEffect(() => {
-    if (usedJobs.length == jobdata.jobData.length) {
+    if (usedJobs.length == jobdata.jobs.length) {
       return;
     }
 
     // Get random job data
     let chosenJobDataNumber: number = Math.round(
       Math.min(
-        Math.random() * jobdata.jobData.length,
-        jobdata.jobData.length - 1
+        Math.random() * jobdata.jobs.length,
+        jobdata.jobs.length - 1
       )
     );
     while (usedJobs.includes(chosenJobDataNumber)) {
       chosenJobDataNumber = Math.round(
         Math.min(
-          Math.random() * jobdata.jobData.length,
-          jobdata.jobData.length - 1
+          Math.random() * jobdata.jobs.length,
+          jobdata.jobs.length - 1
         )
       );
     }
@@ -70,19 +70,18 @@ function App() {
     const postDateString = getTimeAgoString(postDate);
 
     const chosenJobData: Job = {
-      name: jobdata.jobData[chosenJobDataNumber].name,
-      company: jobdata.jobData[chosenJobDataNumber].company,
-      location: randomLocation(),
+      name: jobdata.jobs[chosenJobDataNumber].name,
+      company: jobdata.jobs[chosenJobDataNumber].company,
+      location:
+        jobdata.jobs[chosenJobDataNumber].location ?? randomLocation(),
       postDateString:
-        jobdata.jobData[chosenJobDataNumber].postDateString ?? postDateString,
+        jobdata.jobs[chosenJobDataNumber].postDateString ?? postDateString,
       category: "",
     };
 
     const chosenJobNodeNumber = Math.round(
       Math.min(Math.random() * MAX_JOBS_ON_SCREEN, MAX_JOBS_ON_SCREEN - 1)
     );
-
-    console.log(chosenJobNodeNumber);
 
     jobListingNodes[chosenJobNodeNumber] = (
       <LIJob
