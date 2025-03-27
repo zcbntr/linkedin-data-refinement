@@ -118,9 +118,9 @@ function App() {
   }, [...binCounts]);
 
   return (
-    <DndContext onDragEnd={handleDragEnd}>
-      <main className="flex flex-col place-content-between bg-zinc-900 min-h-svh w-full">
-        <div className="flex flex-col place-content-between gap-6 h-full grow pb-10 w-full">
+    <main className="flex flex-col place-content-between bg-zinc-900 min-h-svh w-full max-w-screen ">
+      <div className="flex flex-col place-content-between gap-6 h-full grow pb-10 w-full">
+        <DndContext onDragEnd={handleDragEnd} autoScroll={false}>
           <div className="flex flex-row place-content-between gap-20 mx-auto select-none pt-2">
             <h1 className="text-5xl">LinkedIn Data Refinement</h1>
             <h2 className="text-5xl">{+completionPercentage.toFixed(10)}%</h2>
@@ -132,28 +132,28 @@ function App() {
           <div className="md:mx-10 md:grid md:grid-cols-5 gap-5 flex flex-row flex-wrap h-20">
             {jobBinNodes}
           </div>
+        </DndContext>
+      </div>
+      <footer className="bg-zinc-950 p-2 flex flex-col gap-2">
+        <div className="flex flex-row place-content-center gap-1 text-white">
+          <a className="hover:underline" href={"https://zcbn.dev/"}>
+            © 2025 Zac Benattar
+          </a>
+          {"·"}
+          <a
+            className="hover:underline"
+            href={"https://github.com/zcbntr/linkedin-data-refinement"}
+          >
+            GitHub
+          </a>
         </div>
-        <footer className="bg-zinc-950 p-2 flex flex-col gap-2">
-          <div className="flex flex-row place-content-center gap-1 text-white">
-            <a className="hover:underline" href={"https://zcbn.dev/"}>
-              © 2025 Zac Benattar
-            </a>
-            {"·"}
-            <a
-              className="hover:underline"
-              href={"https://github.com/zcbntr/linkedin-data-refinement"}
-            >
-              GitHub
-            </a>
-          </div>
-          <div className="text-gray-500 mx-auto text-center">
-            This work is parody. Not affiliated with LinkedIn. The LinkedIn logo
-            is property of LinkedIn. Any resemblence to real companies, brands,
-            or trademarks is unintentional.
-          </div>
-        </footer>
-      </main>
-    </DndContext>
+        <div className="text-gray-500 mx-auto text-center">
+          This work is parody. Not affiliated with LinkedIn. The LinkedIn logo
+          is property of LinkedIn. Any resemblence to real companies, brands, or
+          trademarks is unintentional.
+        </div>
+      </footer>
+    </main>
   );
 
   function handleDragEnd(event: DragEndEvent) {
