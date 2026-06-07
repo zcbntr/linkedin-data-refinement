@@ -4,7 +4,10 @@ import LIJob from "./LIJob";
 import JobBin from "./JobBin";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import {
+  addCompletionProgress,
+  COMPLETION_MAX,
   createGibberishJobs,
+  getMaxJobsOnScreen,
   getTimeAgoString,
   randomDate,
   randomLocation,
@@ -13,19 +16,10 @@ import { sub } from "date-fns";
 import { Job } from "./types";
 
 function App() {
-  const MAX_JOBS_ON_SCREEN = Math.max(
-    Math.min(
-      Math.round(
-        Math.floor((screen.width - 200) / 400) *
-          Math.floor((screen.height - 400) / 100)
-      ),
-      jobdata.jobs.length
-    ) - 4,
-    12
-  );
+  const MAX_JOBS_ON_SCREEN = getMaxJobsOnScreen();
 
-  const [jobListingArray, setJobListingArray] = useState<Job[]>(
-    createGibberishJobs(MAX_JOBS_ON_SCREEN)
+  const [jobListingArray] = useState<Job[]>(
+    createGibberishJobs(MAX_JOBS_ON_SCREEN),
   );
 
   const [completionPercentage, setCompletionPercentage] = useState<number>(0);
@@ -59,21 +53,18 @@ function App() {
         />
       );
 
-      if (completionPercentage >= 100) {
-        return;
-      }
     }
 
     // Get random job data
     let chosenJobDataNumber: number = Math.round(
-      Math.min(Math.random() * jobdata.jobs.length, jobdata.jobs.length - 1)
+      Math.min(Math.random() * jobdata.jobs.length, jobdata.jobs.length - 1),
     );
     while (
       usedJobs.includes(chosenJobDataNumber) &&
       usedJobs.length < jobdata.jobs.length
     ) {
       chosenJobDataNumber = Math.round(
-        Math.min(Math.random() * jobdata.jobs.length, jobdata.jobs.length - 1)
+        Math.min(Math.random() * jobdata.jobs.length, jobdata.jobs.length - 1),
       );
     }
     setUsedJobs([...usedJobs, chosenJobDataNumber]);
@@ -92,7 +83,7 @@ function App() {
     };
 
     const chosenJobNodeNumber = Math.round(
-      Math.min(Math.random() * MAX_JOBS_ON_SCREEN, MAX_JOBS_ON_SCREEN - 1)
+      Math.min(Math.random() * MAX_JOBS_ON_SCREEN, MAX_JOBS_ON_SCREEN - 1),
     );
 
     setCurrentSpecialJobNodeIndex(chosenJobNodeNumber);
@@ -121,9 +112,11 @@ function App() {
     <main className="flex flex-col place-content-between bg-zinc-900 min-h-svh w-full max-w-screen ">
       <div className="flex flex-col place-content-between gap-6 h-full grow pb-10 w-full">
         <DndContext onDragEnd={handleDragEnd} autoScroll={false}>
-          <div className="flex flex-row place-content-between gap-20 mx-auto select-none pt-2">
+          <div className="flex flex-col place-content-between mx-auto select-none pt-2 text-center gap-8">
             <h1 className="text-5xl">LinkedIn Data Refinement</h1>
-            <h2 className="text-5xl">{+completionPercentage.toFixed(10)}%</h2>
+            <h2 className="text-5xl">
+              Progress: {+completionPercentage.toFixed(10)}%
+            </h2>
           </div>
           <div className="flex flex-row flex-wrap w-full h-full gap-5 place-content-center">
             {jobListingNodes}
@@ -157,39 +150,26 @@ function App() {
   );
 
   function handleDragEnd(event: DragEndEvent) {
-    if (completionPercentage >= 100) return;
-
     const { over } = event;
     if (over) {
-      const binCountsCopy = binCounts;
       const index = binLookup.findIndex((x) => x === over.id);
-      binCountsCopy[index] = binCountsCopy[index] + 1;
+      const newBinCounts = [...binCounts];
+      newBinCounts[index] = newBinCounts[index] + 1;
+      const totalJobsClassified = newBinCounts.reduce(
+        (sum, count) => sum + count,
+        0
+      );
 
-      setBinCounts(binCountsCopy);
-      // Add to completion percentage - with scaling
-      if (completionPercentage >= 99.999)
-        setCompletionPercentage(completionPercentage + 0.000015);
-      else if (completionPercentage >= 99.99)
-        setCompletionPercentage(completionPercentage + 0.0001);
-      else if (completionPercentage >= 99.9)
-        setCompletionPercentage(completionPercentage + 0.005);
-      else if (completionPercentage >= 99)
-        setCompletionPercentage(completionPercentage + 0.1);
-      else if (completionPercentage >= 90)
-        setCompletionPercentage(completionPercentage + 1);
-      else if (completionPercentage >= 50)
-        setCompletionPercentage(completionPercentage + 2);
-      else setCompletionPercentage(completionPercentage + 5);
-
-      if (completionPercentage >= 100) {
-        setJobListingArray([]);
-        alert(
-          "I completed LinkedIn Data Refinement and all I got was this stupid alert message"
-        );
-        console.log(
-          "I completed LinkedIn Data Refinement but I also got this stupid console message"
-        );
-      }
+      setBinCounts(newBinCounts);
+      setCompletionPercentage((current) => {
+        const next = addCompletionProgress(current, totalJobsClassified);
+        if (next >= COMPLETION_MAX && current < COMPLETION_MAX) {
+          console.log(
+            "Congratulations! You cheated your way to the completion cap. LinkedIn would be proud."
+          );
+        }
+        return next;
+      });
     }
   }
 }
