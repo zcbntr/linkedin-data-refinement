@@ -3,10 +3,13 @@ export type BinCount = {
   count: number;
 };
 
+export type ApplyLabel = "easy" | "difficult" | null;
+
 export type Job = {
   name: string;
   company: string;
   location: string;
   postDateString: string;
   category: string;
+  applyLabel: ApplyLabel;
 };

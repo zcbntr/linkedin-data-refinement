@@ -11,6 +11,41 @@
             "location": "Fort Worth, Texas"
         },
         {
+            "name": "F4 Button Presser",
+            "company": "McDonald Douglas",
+            "location": "St Louis, Missouri"
+        },
+        {
+            "name": "F14 Button Presser",
+            "company": "Grummy'n",
+            "location": "Long Island, New York"
+        },
+        {
+            "name": "F15 Button Presser",
+            "company": "Boing",
+            "location": "St Louis, Missouri"
+        },
+        {
+            "name": "F16 Button Presser",
+            "company": "General Dyanmics",
+            "location": "Fort Worth, Texas"
+        },
+        {
+            "name": "F18 Button Presser",
+            "company": "Boing",
+            "location": "St Louis, Missouri"
+        },
+        {
+            "name": "F22 Button Presser",
+            "company": "Knockheed Marchin",
+            "location": "Marietta, Georgia"
+        },
+        {
+            "name": "F117 Button Presser",
+            "company": "Knockheed Marchin",
+            "location": "Palmdale, California"
+        },
+        {
             "name": "Autonomous Killing Machine Dev",
             "company": "Andurvil",
             "location": "United States"
@@ -387,6 +422,56 @@
         "Oxford",
         "Cambridge",
         "Whitby",
-        "Wolverhampton"
+        "Wolverhampton",
+        "Glasgow",
+        "Aberdeen",
+        "Inverness",
+        "Cardiff",
+        "Swansea",
+        "Belfast",
+        "Nottingham",
+        "Leicester",
+        "Birmingham",
+        "Manchester",
+        "Stoke-on-Trent",
+        "Plymouth",
+        "Portsmouth",
+        "Norwich",
+        "Ipswich",
+        "Colchester",
+        "Canterbury",
+        "Margate",
+        "Hastings",
+        "Reading",
+        "Slough",
+        "Milton Keynes",
+        "Luton",
+        "St Albans",
+        "Guildford",
+        "Woking",
+        "Crawley",
+        "Tunbridge Wells",
+        "Maidstone",
+        "Lincoln",
+        "Hull",
+        "Middlesbrough",
+        "Sunderland",
+        "Carlisle",
+        "Lancaster",
+        "Preston",
+        "Blackpool",
+        "Bolton",
+        "Wigan",
+        "Rochdale",
+        "Stockport",
+        "Chester",
+        "Wrexham",
+        "Bangor",
+        "Aberystwyth",
+        "St Andrews",
+        "Perth",
+        "Stirling",
+        "Falkirk",
+        "Gloucester"
     ]
 }

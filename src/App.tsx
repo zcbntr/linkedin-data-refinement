@@ -10,10 +10,10 @@ import {
   createGibberishJobs,
   getMaxJobsOnScreen,
   getTimeAgoString,
-  randomDate,
+  randomApplyLabel,
   randomLocation,
+  randomPostDate,
 } from "./utils";
-import { sub } from "date-fns";
 import { Job } from "./types";
 
 function App() {
@@ -25,54 +25,33 @@ function App() {
 
   const [completionPercentage, setCompletionPercentage] = useState<number>(0);
 
-  // Holds current special job node and its index to track where it is
-  const [currentSpecialJobNodeIndex, setCurrentSpecialJobNodeIndex] =
-    useState<number>(0);
+  const [specialJobIndex, setSpecialJobIndex] = useState<number>(0);
+  const [specialJob, setSpecialJob] = useState<Job | null>(null);
+  const [specialJobInstanceId, setSpecialJobInstanceId] = useState(0);
 
-  // Should be a hashmap for better performance
-  const [usedJobs, setUsedJobs] = useState<number[]>([]);
+  const [, setUsedJobs] = useState<number[]>([]);
 
   const [binCounts, setBinCounts] = useState<number[]>([0, 0, 0, 0, 0]);
   const binLookup = [...jobdata.jobBins];
   const sortedCount = binCounts.reduce((sum, count) => sum + count, 0);
 
-  // Probably needs to be a state rather than a variable
-  const jobListingNodes: ReactNode[] = useMemo(() => {
-    return jobListingArray.map((x, i) => {
-      return <LIJob job={x} draggable={false} key={i} id={i.toString()} />;
-    });
-  }, [jobListingArray]);
-
   useEffect(() => {
-    // Reset previous special job
-    if (currentSpecialJobNodeIndex >= 0) {
-      jobListingNodes[currentSpecialJobNodeIndex] = (
-        <LIJob
-          job={jobListingArray[currentSpecialJobNodeIndex]}
-          draggable={false}
-          key={currentSpecialJobNodeIndex}
-          id={currentSpecialJobNodeIndex.toString()}
-        />
-      );
-    }
-
-    // Get random job data
-    let chosenJobDataNumber: number = Math.round(
-      Math.min(Math.random() * jobdata.jobs.length, jobdata.jobs.length - 1),
+    let chosenJobDataNumber = Math.floor(
+      Math.random() * jobdata.jobs.length,
     );
-    while (
-      usedJobs.includes(chosenJobDataNumber) &&
-      usedJobs.length < jobdata.jobs.length
-    ) {
-      chosenJobDataNumber = Math.round(
-        Math.min(Math.random() * jobdata.jobs.length, jobdata.jobs.length - 1),
-      );
-    }
-    setUsedJobs([...usedJobs, chosenJobDataNumber]);
+    setUsedJobs((prev) => {
+      while (
+        prev.includes(chosenJobDataNumber) &&
+        prev.length < jobdata.jobs.length
+      ) {
+        chosenJobDataNumber = Math.floor(
+          Math.random() * jobdata.jobs.length,
+        );
+      }
+      return [...prev, chosenJobDataNumber];
+    });
 
-    // For use if the job doesnt have a post date string attribute
-    const postDate = randomDate(sub(new Date(), { months: 1 }), new Date());
-    const postDateString = getTimeAgoString(postDate);
+    const postDateString = getTimeAgoString(randomPostDate());
 
     const chosenJobData: Job = {
       name: jobdata.jobs[chosenJobDataNumber].name,
@@ -81,28 +60,42 @@ function App() {
       postDateString:
         jobdata.jobs[chosenJobDataNumber].postDateString ?? postDateString,
       category: "",
+      applyLabel: randomApplyLabel(),
     };
 
-    const chosenJobNodeNumber = Math.round(
-      Math.min(Math.random() * MAX_JOBS_ON_SCREEN, MAX_JOBS_ON_SCREEN - 1),
+    const chosenJobNodeNumber = Math.floor(
+      Math.random() * MAX_JOBS_ON_SCREEN,
     );
 
-    setCurrentSpecialJobNodeIndex(chosenJobNodeNumber);
-    jobListingNodes[chosenJobNodeNumber] = (
-      <LIJob
-        job={chosenJobData}
-        draggable={true}
-        key={chosenJobData.name}
-        id={chosenJobData.name + chosenJobData.category}
-      />
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [completionPercentage]);
+    setSpecialJobInstanceId((id) => id + 1);
+    setSpecialJobIndex(chosenJobNodeNumber);
+    setSpecialJob(chosenJobData);
+  }, [completionPercentage, MAX_JOBS_ON_SCREEN]);
+
+  const jobListingNodes: ReactNode[] = useMemo(() => {
+    return jobListingArray.map((job, i) => {
+      const isSpecial = i === specialJobIndex && specialJob !== null;
+      return (
+        <LIJob
+          job={isSpecial ? specialJob : job}
+          draggable={isSpecial}
+          key={isSpecial ? `special-${specialJobInstanceId}` : i}
+          id={isSpecial ? `special-${specialJobInstanceId}` : i.toString()}
+        />
+      );
+    });
+  }, [jobListingArray, specialJobIndex, specialJob, specialJobInstanceId]);
 
   const jobBinNodes: ReactNode[] = useMemo(() => {
     return jobdata.jobBins.map((name, i) => {
       return (
-        <JobBin name={name} percent={binCounts[i] * 10} key={name} id={name} />
+        <JobBin
+          name={name}
+          percent={binCounts[i] * 10}
+          key={name}
+          id={name}
+          disabled={name === "Apply"}
+        />
       );
     });
 
@@ -137,7 +130,7 @@ function App() {
             className="hover:underline font-semibold"
             href={"https://zcbn.dev/"}
           >
-            © 2025 Zac Benattar
+            © 2026 Zac Benattar
           </a>
           {"·"}
           <a
@@ -158,7 +151,7 @@ function App() {
 
   function handleDragEnd(event: DragEndEvent) {
     const { over } = event;
-    if (over) {
+    if (over && over.id !== "Apply") {
       const index = binLookup.findIndex((x) => x === over.id);
       const newBinCounts = [...binCounts];
       newBinCounts[index] = newBinCounts[index] + 1;

@@ -1,7 +1,9 @@
 import LinkedInSVG from "./assets/linkedin.svg";
 
 import { useDraggable } from "@dnd-kit/core";
+import { useMemo } from "react";
 import { Job } from "./types";
+import { randomLinkedInLogoStyle } from "./utils";
 
 type LIJobParams = {
   job: Job;
@@ -39,6 +41,11 @@ const LIJob = ({ job, id, draggable }: LIJobParams) => {
     hexCharacters[(job.company.charCodeAt(1) * 7901) % 16] +
     hexCharacters[(job.company.charCodeAt(2) * 7919) % 16];
 
+  const linkedInLogoStyle = useMemo(
+    () => randomLinkedInLogoStyle(id),
+    [id],
+  );
+
   return (
     <div
       ref={draggable ? setNodeRef : undefined}
@@ -65,10 +72,24 @@ const LIJob = ({ job, id, draggable }: LIJobParams) => {
           <span>{job.company} </span> · <span>{job.location}</span>
         </span>
         <div className="flex flex-row gap-1.5 items-center text-sm">
-          <span className="text-[#057642] font-medium">{job.postDateString}</span>
-          <span className="text-[rgba(0,0,0,0.6)]">·</span>
-          <img src={LinkedInSVG} width={14}></img>
-          <span className="text-[rgba(0,0,0,0.6)]">Easy Apply</span>
+          <span className="text-[#057642] font-medium">
+            {job.postDateString}
+          </span>
+          {job.applyLabel && (
+            <>
+              <span className="text-[rgba(0,0,0,0.6)]">·</span>
+              <img
+                src={LinkedInSVG}
+                width={14}
+                alt=""
+                className="inline-block"
+                style={linkedInLogoStyle}
+              />
+              <span className="text-[rgba(0,0,0,0.6)]">
+                {job.applyLabel === "easy" ? "Easy Apply" : "Difficult Apply"}
+              </span>
+            </>
+          )}
         </div>
       </div>
     </div>
