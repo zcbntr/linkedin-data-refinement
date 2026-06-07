@@ -12,22 +12,24 @@ const JobBin = ({ name, percent, id }: JobBinParams) => {
     id: id,
   });
   const style = {
-    color: isOver ? "green" : undefined,
+    borderColor: isOver ? "#0a66c2" : undefined,
+    backgroundColor: isOver ? "#eef3f8" : undefined,
   };
 
   // Completion code
-  const completionStyle = percent >= 100 ? "text-gray-500" : "";
+  const completionStyle =
+    percent >= 100 ? "text-[rgba(0,0,0,0.4)] bg-[#f3f2ef]" : "";
 
   return (
     <div
       ref={setNodeRef}
       style={style}
-      className={`${completionStyle} select-none w-full p-2 flex text-lg md:text-xl flex-row gap-3 border-1 border-gray-600 min-w-52 place-content-between`}
+      className={`${completionStyle} select-none w-full p-3 flex text-base md:text-lg flex-row gap-3 bg-white rounded-lg border border-[#e0e0e0] shadow-sm min-w-52 place-content-between transition-colors`}
     >
-      <div className="flex flex-col place-content-center font-semibold">
+      <div className="flex flex-col place-content-center font-semibold text-[rgba(0,0,0,0.9)]">
         {name}
       </div>
-      <div className="flex flex-col place-content-center font-semibold">
+      <div className="flex flex-col place-content-center font-semibold text-[#0a66c2]">
         {percent}%
       </div>
     </div>

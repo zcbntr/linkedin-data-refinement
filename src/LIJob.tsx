@@ -45,26 +45,30 @@ const LIJob = ({ job, id, draggable }: LIJobParams) => {
       style={draggable ? style : undefined}
       {...listeners}
       {...attributes}
-      className="w-96 py-2 px-2.5 flex flex-row gap-2 border-1 border-gray-600 min-w-96 select-none"
+      className="w-96 py-3 px-4 flex flex-row gap-3 bg-white rounded-lg border border-[#e0e0e0] shadow-sm min-w-96 select-none hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing"
     >
-      <div className="flex flex-col place-content-start pt-1.5">
+      <div className="flex flex-col place-content-start pt-0.5">
         {/* Get image from https://dummyimage.com/ by Russell Heimlich */}
         <img
           src={`https://dummyimage.com/64x64/${companyColour}/fff.git&text=${companyInitials}`}
-          width={screen.width > 512 ? 64 : 32}
+          width={screen.width > 512 ? 48 : 32}
+          className="rounded"
         ></img>
       </div>
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-0.5">
         <div className="flex flex-row">
-          <span className="text-blue-600 font-semibold">{job.name}</span>
+          <span className="text-[#0a66c2] font-semibold hover:underline">
+            {job.name}
+          </span>
         </div>
-        <span className="text-sm">
+        <span className="text-sm text-[rgba(0,0,0,0.9)]">
           <span>{job.company} </span> · <span>{job.location}</span>
         </span>
-        <div className="flex flex-row gap-2 text-sm">
-          <span className="text-green-900">{job.postDateString}</span> ·
+        <div className="flex flex-row gap-1.5 items-center text-sm">
+          <span className="text-[#057642] font-medium">{job.postDateString}</span>
+          <span className="text-[rgba(0,0,0,0.6)]">·</span>
           <img src={LinkedInSVG} width={14}></img>
-          <span className="text-gray-500">Easy Apply</span>
+          <span className="text-[rgba(0,0,0,0.6)]">Easy Apply</span>
         </div>
       </div>
     </div>

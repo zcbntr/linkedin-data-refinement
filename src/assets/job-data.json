@@ -240,6 +240,105 @@
             "company": "Arasaka Corporaton",
             "postDateString": "2077",
             "location": "Knight City"
+        },
+        {
+            "name": "Engagement Bait Poster",
+            "company": "LinkdIn",
+            "location": "Sunnyvale, California"
+        },
+        {
+            "name": "Ghost Job Listing Maintainer",
+            "company": "Perpetually Hiring Inc."
+        },
+        {
+            "name": "Must Have 15 Years Kubernetes Experience",
+            "company": "Time Travel Recruiting"
+        },
+        {
+            "name": "Full Stack Ninja Rockstar Wizard",
+            "company": "Brogrammers United"
+        },
+        {
+            "name": "Unpaid Passion Project Lead",
+            "company": "Exploit-a-Dev LLC",
+            "location": "San Francisco"
+        },
+        {
+            "name": "Meeting That Could Have Been an Email",
+            "company": "Zoom Fatigue Corp."
+        },
+        {
+            "name": "Culture Fit Inquisitor",
+            "company": "WeDontPayWell"
+        },
+        {
+            "name": "H1B Sponsorship Teaser (No Sponsorship)",
+            "company": "Visa Mirage Technologies"
+        },
+        {
+            "name": "JIRA Ticket Factory Worker",
+            "company": "Atlassion"
+        },
+        {
+            "name": "AI Slop Quality Assurance",
+            "company": "ClosedAI",
+            "location": "The Cloud"
+        },
+        {
+            "name": "Copilot Apology Specialist",
+            "company": "GitHab"
+        },
+        {
+            "name": "Merge Conflict Peacekeeper",
+            "company": "Git Wars International"
+        },
+        {
+            "name": "Tabs vs Spaces Arbitrator",
+            "company": "Holy War Software"
+        },
+        {
+            "name": "Work Life Balance Evangelist",
+            "company": "Hustle Culture Ltd.",
+            "location": "At the office, always"
+        },
+        {
+            "name": "Blockchain JPEG Salesperson",
+            "company": "Web3 Hype Collective"
+        },
+        {
+            "name": "LinkedIn Premium Upseller",
+            "company": "Macrosoft"
+        },
+        {
+            "name": "Applicant Tracking System Rejecter",
+            "company": "Black Hole HR"
+        },
+        {
+            "name": "In Office Mandate Enforcer",
+            "company": "Return to Office Inc.",
+            "location": "Head Office"
+        },
+        {
+            "name": "Thought Leadership Essayist",
+            "company": "LinkdIn",
+            "postDateString": "Agree?"
+        },
+        {
+            "name": "We Use AI in the Job Description Writer",
+            "company": "Buzzword Solutions"
+        },
+        {
+            "name": "Senior Synergy Orchestrator",
+            "company": "Corporate Word Salad Co."
+        },
+        {
+            "name": "Resume Keyword Optimizer",
+            "company": "ATS Gaming Group"
+        },
+        {
+            "name": "Open to Work Badge Hider",
+            "company": "Stealth Job Search LLC",
+            "location": "Remote (but don't tell your boss)"
         }
     ],
     "jobBins": [

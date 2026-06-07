@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useMemo, useState } from "react";
 import jobdata from "./assets/job-data.json";
 import LIJob from "./LIJob";
 import JobBin from "./JobBin";
+import ProgressWidget from "./ProgressWidget";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import {
   addCompletionProgress,
@@ -33,6 +34,7 @@ function App() {
 
   const [binCounts, setBinCounts] = useState<number[]>([0, 0, 0, 0, 0]);
   const binLookup = [...jobdata.jobBins];
+  const sortedCount = binCounts.reduce((sum, count) => sum + count, 0);
 
   // Probably needs to be a state rather than a variable
   const jobListingNodes: ReactNode[] = useMemo(() => {
@@ -52,7 +54,6 @@ function App() {
           id={currentSpecialJobNodeIndex.toString()}
         />
       );
-
     }
 
     // Get random job data
@@ -109,38 +110,44 @@ function App() {
   }, [...binCounts]);
 
   return (
-    <main className="flex flex-col place-content-between bg-zinc-900 min-h-svh w-full max-w-screen ">
+    <main className="flex flex-col place-content-between bg-[#f3f2ef] min-h-svh w-full max-w-screen">
       <div className="flex flex-col place-content-between gap-6 h-full grow pb-10 w-full">
         <DndContext onDragEnd={handleDragEnd} autoScroll={false}>
-          <div className="flex flex-col place-content-between mx-auto select-none pt-2 text-center gap-8">
-            <h1 className="text-5xl">LinkedIn Data Refinement</h1>
-            <h2 className="text-5xl">
-              Progress: {+completionPercentage.toFixed(10)}%
-            </h2>
+          <div className="flex flex-col place-content-between mx-auto select-none pt-6 text-center gap-4">
+            <h1 className="text-3xl font-semibold text-[rgba(0,0,0,0.9)]">
+              LinkedIn Data Refinement
+            </h1>
+            <ProgressWidget
+              completionPercentage={completionPercentage}
+              sortedCount={sortedCount}
+            />
           </div>
-          <div className="flex flex-row flex-wrap w-full h-full gap-5 place-content-center">
+          <div className="flex flex-row flex-wrap w-full h-full gap-3 place-content-center px-4">
             {jobListingNodes}
           </div>
 
-          <div className="md:mx-10 md:grid md:grid-cols-5 gap-5 flex flex-row flex-wrap h-20">
+          <div className="md:mx-10 md:grid md:grid-cols-5 gap-3 flex flex-row flex-wrap h-20 px-4">
             {jobBinNodes}
           </div>
         </DndContext>
       </div>
-      <footer className="bg-zinc-950 p-2 flex flex-col gap-2">
-        <div className="flex flex-row place-content-center gap-1 text-white">
-          <a className="hover:underline" href={"https://zcbn.dev/"}>
+      <footer className="bg-white border-t border-[#e0e0e0] p-4 flex flex-col gap-2">
+        <div className="flex flex-row place-content-center gap-1 text-[#0a66c2]">
+          <a
+            className="hover:underline font-semibold"
+            href={"https://zcbn.dev/"}
+          >
             © 2025 Zac Benattar
           </a>
           {"·"}
           <a
-            className="hover:underline"
+            className="hover:underline font-semibold"
             href={"https://github.com/zcbntr/linkedin-data-refinement"}
           >
             GitHub
           </a>
         </div>
-        <div className="text-gray-500 mx-auto text-center">
+        <div className="text-[rgba(0,0,0,0.6)] mx-auto text-center text-sm">
           This work is parody. Not affiliated with LinkedIn. The LinkedIn logo
           is property of LinkedIn. Any resemblence to real companies, brands, or
           trademarks is unintentional.
@@ -157,7 +164,7 @@ function App() {
       newBinCounts[index] = newBinCounts[index] + 1;
       const totalJobsClassified = newBinCounts.reduce(
         (sum, count) => sum + count,
-        0
+        0,
       );
 
       setBinCounts(newBinCounts);
@@ -165,7 +172,7 @@ function App() {
         const next = addCompletionProgress(current, totalJobsClassified);
         if (next >= COMPLETION_MAX && current < COMPLETION_MAX) {
           console.log(
-            "Congratulations! You cheated your way to the completion cap. LinkedIn would be proud."
+            "Congratulations! You cheated your way to the completion cap. LinkedIn would be proud.",
           );
         }
         return next;
