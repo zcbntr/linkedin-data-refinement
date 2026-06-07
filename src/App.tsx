@@ -10,30 +10,45 @@ import {
   createGibberishJobs,
   getMaxJobsOnScreen,
   getTimeAgoString,
+  clearProgress,
+  loadProgress,
   randomApplyLabel,
   randomLocation,
   randomPostDate,
+  saveProgress,
 } from "./utils";
 import { Job } from "./types";
 
 function App() {
   const MAX_JOBS_ON_SCREEN = getMaxJobsOnScreen();
+  const savedProgress = loadProgress();
 
   const [jobListingArray] = useState<Job[]>(
     createGibberishJobs(MAX_JOBS_ON_SCREEN),
   );
 
-  const [completionPercentage, setCompletionPercentage] = useState<number>(0);
+  const [completionPercentage, setCompletionPercentage] = useState<number>(
+    savedProgress?.completionPercentage ?? 0,
+  );
 
   const [specialJobIndex, setSpecialJobIndex] = useState<number>(0);
   const [specialJob, setSpecialJob] = useState<Job | null>(null);
   const [specialJobInstanceId, setSpecialJobInstanceId] = useState(0);
 
-  const [, setUsedJobs] = useState<number[]>([]);
+  const [usedJobs, setUsedJobs] = useState<number[]>(
+    savedProgress?.usedJobs ?? [],
+  );
 
-  const [binCounts, setBinCounts] = useState<number[]>([0, 0, 0, 0, 0]);
+  const [binCounts, setBinCounts] = useState<number[]>(
+    savedProgress?.binCounts ?? [0, 0, 0, 0, 0],
+  );
+  const [resetCounter, setResetCounter] = useState(0);
   const binLookup = [...jobdata.jobBins];
   const sortedCount = binCounts.reduce((sum, count) => sum + count, 0);
+
+  useEffect(() => {
+    saveProgress({ completionPercentage, binCounts, usedJobs });
+  }, [completionPercentage, binCounts, usedJobs]);
 
   useEffect(() => {
     let chosenJobDataNumber = Math.floor(
@@ -70,7 +85,7 @@ function App() {
     setSpecialJobInstanceId((id) => id + 1);
     setSpecialJobIndex(chosenJobNodeNumber);
     setSpecialJob(chosenJobData);
-  }, [completionPercentage, MAX_JOBS_ON_SCREEN]);
+  }, [completionPercentage, MAX_JOBS_ON_SCREEN, resetCounter]);
 
   const jobListingNodes: ReactNode[] = useMemo(() => {
     return jobListingArray.map((job, i) => {
@@ -125,7 +140,7 @@ function App() {
         </DndContext>
       </div>
       <footer className="bg-white border-t border-[#e0e0e0] p-4 flex flex-col gap-2">
-        <div className="flex flex-row place-content-center gap-1 text-[#0a66c2]">
+        <div className="flex flex-row flex-wrap place-content-center items-center gap-1 text-[#0a66c2]">
           <a
             className="hover:underline font-semibold"
             href={"https://zcbn.dev/"}
@@ -139,6 +154,14 @@ function App() {
           >
             GitHub
           </a>
+          {"·"}
+          <button
+            type="button"
+            onClick={handleReset}
+            className="hover:underline font-semibold cursor-pointer"
+          >
+            Reset progress
+          </button>
         </div>
         <div className="text-[rgba(0,0,0,0.6)] mx-auto text-center text-sm">
           This work is parody. Not affiliated with LinkedIn. The LinkedIn logo
@@ -148,6 +171,14 @@ function App() {
       </footer>
     </main>
   );
+
+  function handleReset() {
+    clearProgress();
+    setCompletionPercentage(0);
+    setBinCounts([0, 0, 0, 0, 0]);
+    setUsedJobs([]);
+    setResetCounter((count) => count + 1);
+  }
 
   function handleDragEnd(event: DragEndEvent) {
     const { over } = event;

@@ -268,6 +268,54 @@ export function getMaxJobsOnScreen(): number {
   );
 }
 
+const PROGRESS_STORAGE_KEY = "linkedin-data-refinement-progress";
+
+export type SavedProgress = {
+  completionPercentage: number;
+  binCounts: number[];
+  usedJobs: number[];
+};
+
+function isSavedProgress(value: unknown): value is SavedProgress {
+  if (!value || typeof value !== "object") return false;
+  const candidate = value as SavedProgress;
+  return (
+    typeof candidate.completionPercentage === "number" &&
+    Array.isArray(candidate.binCounts) &&
+    candidate.binCounts.length === jobdata.jobBins.length &&
+    candidate.binCounts.every((count) => typeof count === "number") &&
+    Array.isArray(candidate.usedJobs) &&
+    candidate.usedJobs.every((index) => typeof index === "number")
+  );
+}
+
+export function loadProgress(): SavedProgress | null {
+  try {
+    const raw = localStorage.getItem(PROGRESS_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed: unknown = JSON.parse(raw);
+    return isSavedProgress(parsed) ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+export function saveProgress(progress: SavedProgress): void {
+  try {
+    localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(progress));
+  } catch {
+    // Ignore quota errors or storage blocked in private browsing.
+  }
+}
+
+export function clearProgress(): void {
+  try {
+    localStorage.removeItem(PROGRESS_STORAGE_KEY);
+  } catch {
+    // Ignore storage blocked in private browsing.
+  }
+}
+
 export function createGibberishJobs(count: number): Job[] {
   const jobs: Job[] = [];
   for (let i = 0; i < count; i++) {
